@@ -1,0 +1,23 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@master
+      with:
+        filename: 'Test ${{ github.event.inputs.tag }}.zip'
+        exclusions: '*.git* README.md'
+    - name: Upload Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: 'Test ${{ github.event.inputs.tag }}.zip'
+        token: ${{ secrets.GITHUB_TOKEN }}
