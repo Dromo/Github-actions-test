@@ -14,12 +14,12 @@ jobs:
     - name: Archive Release
       uses: thedoctor0/zip-release@master
       with:
-        filename: 'Test ${{ github.event.inputs.tag }}.zip'
+        filename: 'Test-${{ github.event.inputs.tag }}.zip'
         exclusions: '*.git* README.md'
     - name: Upload Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: 'Test ${{ github.event.inputs.tag }}.zip'
+        artifacts: 'Test-${{ github.event.inputs.tag }}.zip'
         commit: main
         tag: ${{ github.event.inputs.tag }}
         token: ${{ secrets.GITHUB_TOKEN }}
