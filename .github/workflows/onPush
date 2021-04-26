@@ -1,0 +1,25 @@
+name: OnPush
+
+on:
+  push:
+    tags:
+      - '*'
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@master
+      with:
+        filename: 'Test_$($env:GITHUB_REF -replace "refs/tags/").zip'
+        exclusions: '*.git* *.md'
+    - name: Upload Release
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: 'Test_$($env:GITHUB_REF -replace "refs/tags/").zip'
+        commit: main
+        bodyFile: Release.md
+        tag: $($env:GITHUB_REF -replace "refs/tags/")
+        token: ${{ secrets.GITHUB_TOKEN }}
